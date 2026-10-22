@@ -196,7 +196,15 @@ body {
 .footer-card .body { flex: 1 1 auto; }
 .footer-card h4 { font-size: 15px; font-weight: 600; }
 .footer-card p  { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
-.dot { flex: 0 0 auto; width: 11px; height: 11px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(53,208,127,.16); }
+.dot {
+  flex: 0 0 auto;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 4px rgba(53,208,127,.2), 0 0 12px rgba(53,208,127,.45);
+  animation: dotGlow 2.2s ease-in-out infinite;
+}
 
 /* --- veiligheids-statusbalk (typ "nee" om weg te halen) --- */
 .stats {
@@ -218,9 +226,36 @@ body {
 }
 .stat .lab { font-size: 12px; color: var(--muted); font-weight: 500; }
 
+/* A brief entrance keeps the page lively without ongoing layout movement. */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes dotGlow {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(53,208,127,.16), 0 0 8px rgba(53,208,127,.32); }
+  50% { box-shadow: 0 0 0 5px rgba(53,208,127,.22), 0 0 15px rgba(53,208,127,.6); }
+}
+.shield-wrap, .title, .subtitle, .stats, .footer-card, .card {
+  animation: riseIn .75s cubic-bezier(.2,.7,.3,1) both;
+}
+.shield-wrap { animation-delay: .04s; }
+.title { animation-delay: .1s; }
+.subtitle { animation-delay: .18s; }
+.stats { animation-delay: .25s; }
+.footer-card { animation-delay: .3s; }
+.cards .card:nth-child(1) { animation-delay: .36s; }
+.cards .card:nth-child(2) { animation-delay: .42s; }
+.cards .card:nth-child(3) { animation-delay: .48s; }
+
 /* Keep the layout still and readable on narrow phone screens. */
 @media (max-width: 360px) {
   .title { font-size: clamp(25px, 7.2vw, 31px); }
   .card { gap: 10px; padding: 14px 12px; }
   .card p { font-size: 12.5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shield-wrap, .title, .subtitle, .stats, .footer-card, .card, .dot {
+    animation: none;
+  }
 }
